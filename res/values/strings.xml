@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">BestSelfie</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <string name="title_activity_main">MainActivity</string>
+
+
+    <string name="action_share">Share</string>
+    <string name="action_show_history">Show history</string>
+    <string name="action_show_actual_data">Show not shared</string>
+    <string name="action_clear_history">Clear history</string>
+    <string name="action_exit">Exit</string>
+
+
+    <!-- Strings related to scanning of pictures notification -->
+    <string name="notyfi_title">Scanning photos</string>
+    <string name="notyfi_text">Scanning photos is in progress...</string>
+
+
+</resources>
+
