@@ -21,7 +21,7 @@ public class AllData implements IDataStorage{
 
 
     public AllData() {
-        File f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File f = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM);
         pictures = new ArrayList<>();
         traverseDir(f);
     }

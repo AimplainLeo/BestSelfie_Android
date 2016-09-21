@@ -18,6 +18,8 @@ import shadasviar.bestselfie.PictureStorage.HistoryManager.HistoryManager;
 import shadasviar.bestselfie.PictureStorage.HistoryManager.IHistoryManager;
 import shadasviar.bestselfie.R;
 
+import static java.lang.Math.pow;
+
 
 /**
  * Created by vlad on 7/30/16.
@@ -63,7 +65,7 @@ public class PictureSelector implements PictureSelectorInterface {
         /*Creating notification*/
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(BestSelfie.getContext())
-                        .setSmallIcon(R.drawable.ic_info_black_24dp)
+                        .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("Scanning photos")
                         .setContentText("Scanning photos is in progress...");
         NotificationManager mManager = (NotificationManager) BestSelfie.getContext().getSystemService(Context.NOTIFICATION_SERVICE);
@@ -96,7 +98,7 @@ public class PictureSelector implements PictureSelectorInterface {
                 int numFaces = detector.findFaces(bitmap, faces);
 
                 if(numFaces > 0){
-                    if(faceIsPretty(faces[0])) {
+                    if(faceIsPretty(faces[0], bitmap)) {
                         useful.add(f);
                         ++i;
                     }
@@ -135,8 +137,16 @@ public class PictureSelector implements PictureSelectorInterface {
     }
 
 
-    private boolean faceIsPretty(FaceDetector.Face face){
-        if(face.confidence() > 0.4)return true;
+    private boolean faceIsPretty(FaceDetector.Face face, Bitmap bitmap){
+        float facePercent = 0f;
+        /*Square of face*/
+        facePercent = (float) Math.pow(face.eyesDistance() * 4, 2);
+        /*Square of picture*/
+        float pictureSquare = bitmap.getWidth() * bitmap.getHeight();
+        /*Square of face in percents*/
+        facePercent = (facePercent/pictureSquare) * 100;
+
+        if(face.confidence() > 0.4 && facePercent > 10)return true;
         return false;
     }
 

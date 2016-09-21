@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private List<File> limitedPictures = new ArrayList<>();
     private ImageAdapter imageAdapter;
     private List<Bitmap> bitmapList = new ArrayList<>();
+    private int minNewPicturesForAutoUpdatingView = 100;
 
     @Override
      protected void onCreate(Bundle savedInstanceState) {
@@ -81,11 +82,11 @@ public class MainActivity extends AppCompatActivity {
         thread.start();
 
         /*thread whitch update data and show it*/
-        /*
+
         Thread mt = new Thread(new Runnable() {
             @Override
             public synchronized void run() {
-                while (true) {
+                while (getNewPictures().size() > minNewPicturesForAutoUpdatingView) {
                     try {
                         TimeUnit.SECONDS.sleep(10);
                     } catch (InterruptedException e) {
@@ -96,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         mt.start();
-        */
+
 
 
     }
@@ -260,9 +261,14 @@ public class MainActivity extends AppCompatActivity {
                 imageView = (ImageView) view;
             }
 
-            if(bitmapList.get(i) != null) {
-                Bitmap bmp = Bitmap.createScaledBitmap(bitmapList.get(i), 800, 800, false);
-                imageView.setImageBitmap(bmp);
+            try {
+                if (bitmapList.get(i) != null) {
+                    Bitmap bmp = Bitmap.createScaledBitmap(bitmapList.get(i), 800, 800, false);
+                    imageView.setImageBitmap(bmp);
+                }
+            }catch (IndexOutOfBoundsException e){
+                e.printStackTrace();
+                System.out.println("Current index: "+ i +" size: " + bitmapList.size());
             }
             return imageView;
         }
@@ -272,6 +278,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    /*Method only for testing how faces are detected*/
     synchronized void checkFace(){
         int k = 0;
         int maxFaces = 1;
